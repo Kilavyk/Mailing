@@ -13,10 +13,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-lxs-)=%ro)^c-iz1q2@bv!57#pt#6-3bqswd9du9uy9$t5sajj"
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "home",
     "mailing",
-    "user",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -125,10 +125,10 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-AUTH_USER_MODEL = 'users.User'
+# AUTH_USER_MODEL = 'users.User'
 
-LOGIN_REDIRECT_URL = 'catalog:home'  # Куда перенаправлять после входа
-LOGOUT_REDIRECT_URL = 'catalog:home'  # Куда перенаправлять после выхода
+LOGIN_REDIRECT_URL = '#'  # Куда перенаправлять после входа
+LOGOUT_REDIRECT_URL = '#'  # Куда перенаправлять после выхода
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
