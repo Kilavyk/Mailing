@@ -47,6 +47,11 @@ class Mailing(models.Model):
     def __str__(self):
         return f'Рассылка #{self.id} ({self.status})'
 
+    @property
+    def status_color(self):
+        from .utils import get_mailing_status_color
+        return get_mailing_status_color(self.status)
+
 class MailingAttempt(models.Model):
     STATUS_CHOICES = [
         ('success', 'Успешно'),
@@ -59,6 +64,7 @@ class MailingAttempt(models.Model):
     mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE, verbose_name='Рассылка')
 
     class Meta:
+        ordering = ['-attempt_time']
         verbose_name = 'Попытка рассылки'
         verbose_name_plural = 'Попытки рассылок'
 
