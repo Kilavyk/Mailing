@@ -1,0 +1,77 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">SkyMailing Service</h1>
+    <p class="lead">Управляйте вашими рассылками эффективно</p>
+    {% if user.is_authenticated %}
+    <a href="{% url 'mailing:create' %}" class="btn btn-lg btn-outline-primary">
+        Создать рассылку
+    </a>
+    {% endif %}
+</div>
+
+<div class="container">
+    <!-- Статистика пользователя -->
+    {% if user.is_authenticated %}
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h2>{{ user_mailings }}</h2>
+                    <p class="card-text">Ваших рассылок</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h2>{{ active_mailings }}</h2>
+                    <p class="card-text">Активных рассылок</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Общая статистика сервиса -->
+    <div class="row">
+        <div class="col-md-4 text-center mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3><i class="bi bi-speedometer2"></i> Быстро</h3>
+                    <p>Мгновенная отправка тысяч писем</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 text-center mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3><i class="bi bi-shield-check"></i> Надежно</h3>
+                    <p>Гарантированная доставка сообщений</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 text-center mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3><i class="bi bi-graph-up"></i> Эффективно</h3>
+                    <p>Подробная аналитика по каждой рассылке</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Призыв к действию -->
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h2>Начните прямо сейчас!</h2>
+            <p class="lead">Создайте свою первую рассылку за 5 минут</p>
+            <a href="{% if user.is_authenticated %}{% url 'mailing:create' %}{% else %}{% url 'users:register' %}{% endif %}"
+               class="btn btn-primary btn-lg">
+                {% if user.is_authenticated %}Создать рассылку{% else %}Зарегистрироваться{% endif %}
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

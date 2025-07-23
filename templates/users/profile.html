@@ -1,0 +1,29 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Мой профиль</h1>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <img src="{{ user.avatar.url }}" class="card-img-top" alt="Аватар">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ user.email }}</h5>
+                    <p class="card-text">{{ user.first_name }} {{ user.last_name }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
