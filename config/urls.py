@@ -8,4 +8,4 @@ urlpatterns = [
     path('', include('home.urls', namespace='home')),
     path('mailing/', include('mailing.urls', namespace='mailing')),
     path('users/', include('users.urls', namespace='users')),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
