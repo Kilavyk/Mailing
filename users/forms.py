@@ -23,3 +23,14 @@ class UserProfileForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
+
+    def clean_avatar(self):
+        avatar = self.cleaned_data.get('avatar')
+        if avatar:
+            # Проверка размера файла (2MB)
+            if avatar.size > 2 * 1024 * 1024:
+                raise forms.ValidationError("Файл слишком большой (макс. 2MB)")
+            # Проверка расширения
+            if not avatar.name.lower().endswith(('.jpg', '.jpeg', '.png')):
+                raise forms.ValidationError("Неподдерживаемый формат файла")
+        return avatar
