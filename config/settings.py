@@ -137,8 +137,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
-LOGIN_REDIRECT_URL = '#'  # Куда перенаправлять после входа
-LOGOUT_REDIRECT_URL = '#'  # Куда перенаправлять после выхода
+LOGIN_REDIRECT_URL = 'home:home'  # Куда перенаправлять после входа
+LOGOUT_REDIRECT_URL = 'home:home'  # Куда перенаправлять после выхода
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.yandex.ru'
