@@ -47,7 +47,7 @@ class ModerationView(UserPassesTestMixin, TemplateView):
     template_name = 'home/moderation.html'
 
     def test_func(self):
-        return self.request.user.is_staff
+        return self.request.user.has_perm('users.view_moderation_panel')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
