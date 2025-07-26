@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Подтверждение регистрации</title>
+</head>
+<body>
+<p>Здравствуйте, {{ user.email }}!</p>
+<p>Для завершения регистрации перейдите по ссылке:</p>
+<p>
+<a href="http://{{ domain }}{% url 'users:verification_email' token=token %}">Подтвердить регистрацию</a>
+</p>
+<p>Если вы не регистрировались на нашем сайте, проигнорируйте это письмо.</p>
+</body>
+</html>
