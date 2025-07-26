@@ -32,57 +32,57 @@
                     {% if mailing.status == 'created' or mailing.status == 'started' %}
                     <a href="{% url 'mailing:start' mailing.pk %}" class="btn btn-success mt-2">Запустить сейчас</a>
                     {% endif %}
+                    <a href="{% url 'mailing:delete' mailing.id %}" class="btn btn-outline-danger mt-2">Удалить</a>
+
                 </div>
             </div>
         </div>
 
 
-
-<div class="col-md-6">
-    <div class="card mb-4">
-        <div class="card-header">
-            <h4>Статистика отправок</h4>
-        </div>
-        <div class="card-body">
-            {% if mailing.mailingattempt_set.all %}
-            <div class="table-responsive">
-                <table class="table table-sm table-hover">
-                    <thead>
-                        <tr>
-                            <th>Дата/время</th>
-                            <th>Статус</th>
-                            <th>Ответ сервера</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for attempt in mailing.mailingattempt_set.all %}
-                        <tr>
-                            <td>{{ attempt.attempt_time|date:"d.m.Y H:i" }}</td>
-                            <td>
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Статистика отправок</h4>
+                </div>
+                <div class="card-body">
+                    {% if mailing.mailingattempt_set.all %}
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                            <tr>
+                                <th>Дата/время</th>
+                                <th>Статус</th>
+                                <th>Ответ сервера</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for attempt in mailing.mailingattempt_set.all %}
+                            <tr>
+                                <td>{{ attempt.attempt_time|date:"d.m.Y H:i" }}</td>
+                                <td>
                                 <span class="badge bg-{% if attempt.status == 'success' %}success{% else %}danger{% endif %}">
                                     {{ attempt.get_status_display }}
                                 </span>
-                            </td>
-                            <td>
-                                <small class="text-muted" data-bs-toggle="tooltip" title="{{ attempt.server_response }}">
-                                    {{ attempt.server_response|truncatechars:30 }}
-                                </small>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                                </td>
+                                <td>
+                                    <small class="text-muted" data-bs-toggle="tooltip"
+                                           title="{{ attempt.server_response }}">
+                                        {{ attempt.server_response|truncatechars:30 }}
+                                    </small>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info mb-0">
+                        Нет данных о попытках отправки
+                    </div>
+                    {% endif %}
+                </div>
             </div>
-            {% else %}
-            <div class="alert alert-info mb-0">
-                Нет данных о попытках отправки
-            </div>
-            {% endif %}
         </div>
-    </div>
-</div>
-
-
 
 
     </div>

@@ -35,9 +35,14 @@
                 <td>{{ mailing.recipients.count }}</td>
                 <td>{{ mailing.end_time|date:"d.m.Y H:i" }}</td>
                 <td>
-                    <a href="{% url 'mailing:update' mailing.id %}" class="btn btn-sm btn-outline-secondary">
-                        Редактировать
+                    {% if mailing.status == 'created' or mailing.status == 'started' %}
+                    <a href="{% url 'mailing:start' mailing.pk %}" class="btn btn-sm btn-success">Запустить сейчас</a>
+                    <a href="{% url 'mailing:update' mailing.id %}" class="btn btn-sm btn-outline-secondary">Редактировать</a>
+                    {% endif %}
+                    <a href="{% url 'mailing:detail' mailing.id %}" class="btn btn-sm btn-outline-primary">
+                        Подробнее
                     </a>
+
                     <a href="{% url 'mailing:delete' mailing.id %}" class="btn btn-sm btn-outline-danger">
                         Удалить
                     </a>
