@@ -1,6 +1,5 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 from django.contrib.staticfiles.storage import staticfiles_storage
 
 class CustomUserManager(BaseUserManager):
@@ -30,6 +29,7 @@ class CustomUser(AbstractUser):
     phone_number = models.CharField(max_length=20, blank=True, null=True, verbose_name='Номер телефона')
     country = models.CharField(max_length=100, blank=True, null=True, verbose_name='Страна')
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True, verbose_name='Аватар')
+    verification_token = models.CharField(max_length=100, blank=True, null=True, verbose_name='Токен')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []  # Убираем 'email' из REQUIRED_FIELDS
