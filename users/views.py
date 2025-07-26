@@ -15,6 +15,10 @@ from django.views.generic import FormView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 
+from django.contrib.auth.hashers import make_password
+from .forms import PasswordResetForm
+
+
 import secrets
 
 
@@ -120,4 +124,34 @@ class DeleteAccountView(LoginRequiredMixin, FormView):
         logout(self.request)
         user.delete()
         messages.success(self.request, 'Ваш аккаунт был успешно удален')
+        return super().form_valid(form)
+
+
+
+class PasswordResetView(FormView):
+    template_name = 'users/password_reset.html'
+    form_class = PasswordResetForm
+    success_url = reverse_lazy('users:login')
+
+    def form_valid(self, form):
+        email = form.cleaned_data['email'].lower()
+        try:
+            user = CustomUser.objects.get(email=email)
+            # Генерируем новый пароль
+            new_password = secrets.token_urlsafe(16)
+            user.password = make_password(new_password)
+            user.save()
+
+            # Отправляем письмо с новым паролем
+            send_mail(
+                subject="Восстановление пароля",
+                message=f"Ваш новый пароль: {new_password}\n\nРекомендуем изменить его, но это не предусмотрено функционалом.\nНам очень жаль, честно-честно😔😔😔.",
+                from_email=EMAIL_HOST_USER,
+                recipient_list=[user.email],
+            )
+
+            messages.success(self.request, "Новый пароль отправлен на ваш email.")
+        except CustomUser.DoesNotExist:
+            messages.error(self.request, "Пользователь с таким email не найден.")
+
         return super().form_valid(form)

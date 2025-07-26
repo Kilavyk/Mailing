@@ -74,3 +74,9 @@ class UserDeleteForm(BaseFormStyle, forms.Form):
         required=True,
         widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
     )
+
+class PasswordResetForm(BaseFormStyle, forms.Form):
+    email = forms.EmailField(
+        label='Email',
+        widget=forms.EmailInput(attrs={'autocomplete': 'email'})
+    )
