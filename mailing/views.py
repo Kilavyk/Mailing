@@ -102,6 +102,11 @@ class RecipientCreateView(LoginRequiredMixin, CreateView):
         context['recipients_list'] = Recipient.objects.filter(owner=self.request.user)
         return context
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
 
 @require_POST
 def message_delete(request, pk):

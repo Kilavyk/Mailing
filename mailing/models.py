@@ -2,7 +2,7 @@ from django.db import models
 from users.models import CustomUser
 
 class Recipient(models.Model):
-    email = models.EmailField(unique=True, verbose_name='Email')
+    email = models.EmailField(verbose_name='Email')
     full_name = models.CharField(max_length=255, verbose_name='ФИО')
     comment = models.TextField(blank=True, verbose_name='Комментарий')
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='Владелец')
@@ -10,6 +10,9 @@ class Recipient(models.Model):
     class Meta:
         verbose_name = 'Получатель'
         verbose_name_plural = 'Получатели'
+        constraints = [
+            models.UniqueConstraint(fields=['email', 'owner'], name='unique_email_per_owner')
+        ]
 
     def __str__(self):
         return self.email

@@ -52,4 +52,18 @@ class RecipientForm(forms.ModelForm):
             validate_email(email)
         except ValidationError:
             raise forms.ValidationError("Введите корректный email адрес")
+
+        if hasattr(self, 'instance') and hasattr(self.instance, 'owner'):
+            owner = self.instance.owner
+        else:
+            owner = self.user if hasattr(self, 'user') else None
+
+        if owner and Recipient.objects.filter(email=email, owner=owner).exists():
+            if not self.instance or self.instance.email != email:
+                raise forms.ValidationError("Этот email уже добавлен в вашем списке получателей")
+
         return email
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
