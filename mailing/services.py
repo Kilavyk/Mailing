@@ -1,6 +1,7 @@
 from django.core.mail import send_mail
 from django.utils import timezone
-from mailing.models import MailingAttempt, Mailing
+
+from mailing.models import Mailing, MailingAttempt
 
 
 def send_mailing_manual(mailing_id):
@@ -13,11 +14,11 @@ def send_mailing_manual(mailing_id):
     total_recipients = mailing.recipients.count()
     success_count = 0
 
-    if mailing.status == 'completed':
+    if mailing.status == "completed":
         return (False, "Рассылка уже завершена")
 
-    if mailing.status == 'created':
-        mailing.status = 'started'
+    if mailing.status == "created":
+        mailing.status = "started"
         mailing.save()
 
     for recipient in mailing.recipients.all():
@@ -31,20 +32,20 @@ def send_mailing_manual(mailing_id):
             )
             MailingAttempt.objects.create(
                 mailing=mailing,
-                status='success',
-                server_response='OK',
+                status="success",
+                server_response="OK",
             )
             success_count += 1
         except Exception as e:
             MailingAttempt.objects.create(
                 mailing=mailing,
-                status='failed',
+                status="failed",
                 server_response=str(e),
             )
 
     # Проверяем завершение
     if mailing.end_time <= timezone.now():
-        mailing.status = 'completed'
+        mailing.status = "completed"
         mailing.save()
 
     if success_count == total_recipients:
