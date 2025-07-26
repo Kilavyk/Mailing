@@ -5,74 +5,88 @@
 {% block content %}
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     <h1 class="display-4">Контакты</h1>
-    <p class="lead">Мы всегда готовы ответить на ваши вопросы</p>
+    <p class="lead">Мы на связи, даже когда ваш сервер - нет!</p>
 </div>
 
 <div class="container">
     <div class="row">
         <div class="col-md-6">
             <div class="card mb-4">
-                <div class="card-header">
-                    <h4>Контактная информация</h4>
+                <div class="card-header bg-primary text-white">
+                    <h4>Куда кричать о помощи?</h4>
                 </div>
                 <div class="card-body">
                     <ul class="list-unstyled">
                         <li class="mb-3">
-                            <strong>Техническая поддержка:</strong>
-                            <div>support@skymailing.com</div>
+                            <strong>Техподдержка (когда всё сломалось):</strong>
+                            <div>sos@skymailing.com</div>
+                            <small class="text-muted">Отвечаем быстрее, чем ваш SMTP-сервер</small>
                         </li>
                         <li class="mb-3">
-                            <strong>Коммерческие вопросы:</strong>
-                            <div>sales@skymailing.com</div>
+                            <strong>Продажи (когда хотите больше):</strong>
+                            <div>gimme@skymailing.com</div>
+                            <small class="text-muted">Скидки для тех, кто шлёт меньше спама</small>
                         </li>
                         <li class="mb-3">
-                            <strong>Телефон:</strong>
-                            <div>+7 (495) 123-45-67</div>
+                            <strong>Телефон (если вдруг 21 век):</strong>
+                            <div>+7 (495) 221-EMAIL</div>
+                            <small class="text-muted"></small>
                         </li>
                         <li class="mb-3">
                             <strong>Часы работы:</strong>
-                            <div>Пн-Пт: 9:00 - 18:00</div>
+                            <div>24/7/365.25</div>
+                             <small class="text-muted">(да, и в високосные секунды тоже)</small>
+                        </li>
+                        <li class="mb-3">
+                            <strong>Физический адрес:</strong>
+                            <div>Серверная комната, стойка 42</div>
+                            <small class="text-muted">Приносите печеньки - пустим внутрь</small>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-6">
             <div class="card mb-4">
-                <div class="card-header">
-                    <h4>Напишите нам</h4>
+                <div class="card-header bg-success text-white">
+                    <h4>Напишите нам (если не забанят)</h4>
                 </div>
                 <div class="card-body">
                     <form>
                         <div class="mb-3">
-                            <label for="name" class="form-label">Ваше имя</label>
-                            <input type="text" class="form-control" id="name">
+                            <label for="name" class="form-label">Как вас называть (кроме "пользователь")</label>
+                            <input type="text" class="form-control" id="name" placeholder="Ваше имя или позывной">
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email">
+                            <label for="email" class="form-label">Email (куда слать ответ)</label>
+                            <input type="email" class="form-control" id="email" placeholder="Не @example.com, пожалуйста">
                         </div>
                         <div class="mb-3">
-                            <label for="message" class="form-label">Сообщение</label>
-                            <textarea class="form-control" id="message" rows="4"></textarea>
+                            <label for="message" class="form-label">Ваше послание (максимум 5000 символов)</label>
+                            <textarea class="form-control" id="message" rows="4" placeholder="Пишите, мы же не почту России..."></textarea>
+                            <small class="text-muted">Обещаем не добавлять вас в рассылку без спросу</small>
                         </div>
-                        <button type="submit" class="btn btn-primary">Отправить</button>
+                        <button type="submit" class="btn btn-primary">Отправить (и молиться, чтобы не попало в спам)</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <div class="row mt-4">
         <div class="col-12">
             <div class="card">
                 <div class="card-body text-center">
                     <h4>Наша миссия</h4>
-                    <p class="lead">Сделать email-рассылки простыми и эффективными для каждого бизнеса</p>
+                    <p class="lead">Делаем рассылки настолько простыми, что даже ваш кот сможет их настроить!</p>
                     <div class="mt-3">
-                        <p>SkyMailing - это современная платформа для управления email-коммуникациями</p>
-                        <p class="small text-muted">Разработано с ❤️ для курса SkyPro</p>
+                        <p>SkyMailing - это не просто сервис, это образ жизни (если ваша жизнь - это email-маркетинг)</p>
+                        <div class="alert alert-warning mt-3">
+                            <strong>Важно!</strong> Наши сотрудники на 87% состоят из кофе и пикселей.
+                            Остальные 13% - чистая магия.
+                        </div>
+                        <p class="small text-muted">Разработано с ❤️ и чрезмерным количеством caffeine для курса SkyPro</p>
                     </div>
                 </div>
             </div>

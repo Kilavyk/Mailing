@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">Рассылка #{{ mailing.id }}</h1>
+    <h1 class="display-4">Рассылка # {{ mailing.message.subject }}</h1>
     <span class="badge bg-{{ mailing.status_color }}">{{ mailing.get_status_display }}</span>
 </div>
 

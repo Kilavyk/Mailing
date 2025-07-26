@@ -11,8 +11,14 @@
             <div class="col-6 col-md-3 text-center text-md-start">
                 <h5>Меню</h5>
                 <ul class="list-unstyled text-small">
+                    {% if user.is_authenticated %}
                     <li><a class="text-muted" href="{% url 'home:home' %}">Главная</a></li>
                     <li><a class="text-muted" href="{% url 'mailing:list' %}">Рассылки</a></li>
+                    <li><a class="text-muted" href="{% url 'mailing:message_create' %}">Добавить сообщение</a></li>
+                    <li><a class="text-muted" href="{% url 'mailing:recipient_create' %}">Добавить получателя</a></li>
+                    {% else %}
+                    <li><a class="text-muted" href="{% url 'home:home' %}">Главная</a></li>
+                    {% endif %}
                 </ul>
             </div>
 
@@ -20,8 +26,7 @@
             <div class="col-6 col-md-3 text-center text-md-start">
                 <h5>Ресурсы</h5>
                 <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Документация</a></li>
-                    <li><a class="text-muted" href="#">API</a></li>
+                    <li><a class="text-muted" href="{% url 'home:contacts' %}">Документация</a></li>
                 </ul>
             </div>
 
@@ -30,7 +35,6 @@
                 <h5>О нас</h5>
                 <ul class="list-unstyled text-small">
                     <li><a class="text-muted" href="{% url 'home:contacts' %}">Контакты</a></li>
-                    <li><a class="text-muted" href="#">Политика конфиденциальности</a></li>
                 </ul>
             </div>
         </div>
