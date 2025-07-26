@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.contrib import messages
+from django.db.models import Count
 
 
 class HomeView(TemplateView):
@@ -14,26 +15,26 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         # Статистика для главной страницы
+        context['total_mailings'] = Mailing.objects.count()
+        context['total_active_mailings'] = Mailing.objects.filter(status='started').count()
+
+        # Количество уникальных получателей (используем distinct() и Count)
+        context['total_unique_recipients'] = Recipient.objects.aggregate(
+            count=Count('email', distinct=True)
+        )['count']
+
+        # Информация по авторизованному пользователю
         if self.request.user.is_authenticated:
-            # Количество всех рассылок пользователя
             context['user_mailings'] = Mailing.objects.filter(
                 owner=self.request.user
             ).count()
-
-            # Количество со статусом 'started'
-            context['active_mailings'] = Mailing.objects.filter(
+            context['user_active_mailings'] = Mailing.objects.filter(
                 owner=self.request.user,
                 status='started'
             ).count()
-
-            # Количество уникальных получателей
-            context['unique_recipients'] = Recipient.objects.filter(
+            context['user_unique_recipients'] = Recipient.objects.filter(
                 mailing__owner=self.request.user
             ).distinct().count()
-        else:
-            context['user_mailings'] = 0
-            context['active_mailings'] = 0
-            context['unique_recipients'] = 0
 
         return context
 
