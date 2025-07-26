@@ -18,9 +18,12 @@
         <h5 class="my-0 font-weight-normal">SkyMailing</h5>
     </div>
 
-    <!-- Правая часть -->
+ <!-- Правая часть -->
     <nav class="d-flex">
         {% if user.is_authenticated %}
+        {% if user.is_staff %}
+        <a class="p-2 btn btn-outline-warning me-2" href="{% url 'home:moderation' %}">Модерирование</a>
+        {% endif %}
         <a class="p-2 btn btn-outline-secondary me-2" href="{% url 'users:profile' %}">Профиль</a>
         <form method="post" action="{% url 'users:logout' %}" class="d-inline">
             {% csrf_token %}
