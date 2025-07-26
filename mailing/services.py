@@ -54,3 +54,5 @@ def send_mailing_manual(mailing_id):
         return (False, f"Частично: {success_count}/{total_recipients} писем отправлено")
     else:
         return (False, "Все попытки завершились ошибкой")
+
+
