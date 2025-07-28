@@ -76,3 +76,15 @@ class ModerationView(UserPassesTestMixin, TemplateView):
             messages.success(request, f"Рассылка #{mailing.id} отключена")
 
         return redirect(reverse("home:moderation"))
+
+
+class ReportsView(TemplateView):
+    template_name = "home/reports.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            context['mailings'] = Mailing.objects.filter(
+                owner=self.request.user
+            ).prefetch_related('message', 'mailingattempt_set').order_by('-start_time')
+        return context
