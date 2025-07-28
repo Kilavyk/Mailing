@@ -14,8 +14,9 @@
                     {% if user.is_authenticated %}
                     <li><a class="text-muted" href="{% url 'home:home' %}">Главная</a></li>
                     <li><a class="text-muted" href="{% url 'mailing:list' %}">Рассылки</a></li>
-                    <li><a class="text-muted" href="{% url 'mailing:message_create' %}">Добавить сообщение</a></li>
-                    <li><a class="text-muted" href="{% url 'mailing:recipient_create' %}">Добавить получателя</a></li>
+                    <li><a class="text-muted" href="{% url 'mailing:message_create' %}">Сообщения</a></li>
+                    <li><a class="text-muted" href="{% url 'mailing:recipient_create' %}">Получатели</a></li>
+                    <li><a class="text-muted" href="{% url 'home:reports' %}">Отчеты</a>
                     {% else %}
                     <li><a class="text-muted" href="{% url 'home:home' %}">Главная</a></li>
                     {% endif %}
