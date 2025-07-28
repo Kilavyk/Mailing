@@ -88,6 +88,16 @@ class MessageCreateView(LoginRequiredMixin, CreateView):
         return context
 
 
+class MessageUpdateView(LoginRequiredMixin, UpdateView):
+    model = Message
+    form_class = MessageForm
+    template_name = "mailing/message_update.html"
+    success_url = reverse_lazy("mailing:message_create")
+
+    def get_queryset(self):
+        return Message.objects.filter(owner=self.request.user)
+
+
 class RecipientCreateView(LoginRequiredMixin, CreateView):
     model = Recipient
     form_class = RecipientForm
@@ -105,6 +115,21 @@ class RecipientCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context["recipients_list"] = Recipient.objects.filter(owner=self.request.user)
         return context
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
+
+class RecipientUpdateView(LoginRequiredMixin, UpdateView):
+    model = Recipient
+    form_class = RecipientForm
+    template_name = "mailing/recipient_update.html"
+    success_url = reverse_lazy("mailing:recipient_create")
+
+    def get_queryset(self):
+        return Recipient.objects.filter(owner=self.request.user)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

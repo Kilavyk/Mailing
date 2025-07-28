@@ -12,7 +12,53 @@
         <div class="col-md-8">
             <form method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
+
+                <!-- Поля формы кроме message и recipients -->
+                {% for field in form %}
+                    {% if field.name != 'message' and field.name != 'recipients' %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ field.errors.0 }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                <!-- Поле message с кнопками -->
+                <div class="mb-3">
+                    <label for="id_message" class="form-label">{{ form.message.label }}</label>
+                    <div class="input-group">
+                        {{ form.message }}
+                        <a href="{% url 'mailing:message_create' %}" class="btn btn-outline-primary">Создать</a>
+                        {% if form.message.value %}
+                            <a href="{% url 'mailing:message_update' form.message.value %}" class="btn btn-outline-secondary">Изменить</a>
+                        {% endif %}
+                    </div>
+                    {% if form.message.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.message.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Поле recipients с кнопкой -->
+                <div class="mb-3">
+                    <label for="id_recipients" class="form-label">{{ form.recipients.label }}</label>
+                    <div class="input-group">
+                        {{ form.recipients }}
+                        <a href="{% url 'mailing:recipient_create' %}" class="btn btn-outline-primary">Добавить</a>
+                    </div>
+                    {% if form.recipients.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.recipients.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-primary btn-lg">
                         {% if object %}Сохранить{% else %}Создать{% endif %}

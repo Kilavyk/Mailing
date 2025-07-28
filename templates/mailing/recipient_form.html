@@ -56,6 +56,7 @@
                     {% if recipients_list %}
                     <div class="list-group">
                         {% for recipient in recipients_list %}
+
                         <div class="list-group-item d-flex justify-content-between align-items-center">
                             <div>
                                 <h6>{{ recipient.email }}</h6>
@@ -64,14 +65,20 @@
                                     {% if recipient.comment %} - {{ recipient.comment|truncatechars:30 }}{% endif %}
                                 </small>
                             </div>
-                            <form method="post" action="{% url 'mailing:recipient_delete' recipient.pk %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-sm btn-outline-danger"
-                                        onclick="return confirm('Вы уверены, что хотите удалить этого получателя?')">
-                                    Удалить
-                                </button>
-                            </form>
+                            <div>
+                                <a href="{% url 'mailing:recipient_update' recipient.pk %}"
+                                   class="btn btn-sm btn-outline-primary me-2">Изменить</a>
+                                <form method="post" action="{% url 'mailing:recipient_delete' recipient.pk %}"
+                                      class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('Вы уверены, что хотите удалить этого получателя?')">
+                                        Удалить
+                                    </button>
+                                </form>
+                            </div>
                         </div>
+
                         {% endfor %}
                     </div>
                     {% else %}
