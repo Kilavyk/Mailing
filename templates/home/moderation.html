@@ -1,0 +1,121 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Панель модерации</h1>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!-- Колонка пользователей -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Пользователи</h4>
+                </div>
+                <div class="card-body">
+                    {% if users %}
+                    <div class="list-group">
+                        {% for user in users %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6>{{ user.email }}</h6>
+                                <small class="text-muted">
+                                    {% if user.is_active %}
+                                    <span class="badge bg-success">Активен</span>
+                                    {% else %}
+                                    <span class="badge bg-danger">Заблокирован</span>
+                                    {% endif %}
+                                </small>
+                            </div>
+                            {% if user.is_active %}
+                            <form method="post" action="{% url 'home:moderation' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="block_user" value="{{ user.id }}">
+                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('Заблокировать пользователя {{ user.email }}?')">
+                                    Блокировать
+                                </button>
+                            </form>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info mb-0">
+                        Нет пользователей
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Колонка рассылок -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Рассылки</h4>
+                </div>
+                <div class="card-body">
+                    {% if mailings %}
+                    <div class="list-group">
+                        {% for mailing in mailings %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6>#{{ mailing.id }}: {{ mailing.message.subject|truncatechars:20 }}</h6>
+                                <small class="text-muted">
+                                    <span class="badge bg-{{ mailing.status_color }}">
+                                        {{ mailing.get_status_display }}
+
+                                    </span>
+                                <span class="text-muted"> {{ mailing.owner.email }}</span>
+                                </small>
+                            </div>
+                            {% if mailing.status != 'completed' %}
+                            <form method="post" action="{% url 'home:moderation' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="block_mailing" value="{{ mailing.id }}">
+                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('Отключить рассылку #{{ mailing.id }}?')">
+                                    Блокировать
+                                </button>
+                            </form>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info mb-0">
+                        Нет рассылок
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Колонка получателей -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Уникальные получатели</h4>
+                </div>
+                <div class="card-body">
+                    {% if unique_recipients %}
+                    <div class="list-group">
+                        {% for recipient in unique_recipients %}
+                        <div class="list-group-item">
+                            <h6>{{ recipient.email }}</h6>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info mb-0">
+                        Нет получателей
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

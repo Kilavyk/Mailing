@@ -1,0 +1,137 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Мой профиль</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" id="profile-form">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <div class="avatar-container mb-3">
+                                <img id="avatar-preview"
+                                     src="{% if user.avatar %}{{ user.avatar.url }}{% else %}{% static 'img/default-avatar.png' %}{% endif %}"
+                                     class="img-thumbnail rounded"
+
+                                     alt="Аватар">
+                            </div>
+                            <div class="form-group">
+                                <label for="id_avatar" class="btn btn-outline-primary btn-sm w-100">
+                                    Изменить аватар
+                                </label>
+                                <input type="file" name="avatar" id="id_avatar" accept="image/*" style="display:none;">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" value="{{ user.email }}" disabled>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Имя</label>
+                                {{ form.first_name }}
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Фамилия</label>
+                                {{ form.last_name }}
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Телефон</label>
+                                {{ form.phone_number }}
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Страна</label>
+                                {{ form.country }}
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Аватар</label>
+                                <div class="d-flex align-items-center">
+                                    {% if user.avatar %}
+                                    <span class="text-muted me-2">{{ user.avatar.name|cut:"avatars/" }}</span>
+                                    <label class="btn btn-sm btn-outline-danger mb-0">
+                                        <input type="checkbox" name="avatar-clear" id="avatar-clear_id" class="d-none">
+                                        Удалить
+                                    </label>
+                                    {% else %}
+                                    <span class="text-muted">Аватар не установлен</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .avatar-container {
+        margin: 0 auto 15px;
+        overflow: hidden;
+    }
+    .rounded {
+        border-radius: 15px !important;
+    }
+    .img-thumbnail {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+    #avatar-clear_id + label {
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const avatarInput = document.getElementById('id_avatar');
+        const avatarPreview = document.getElementById('avatar-preview');
+        const avatarClear = document.getElementById('avatar-clear_id');
+
+        if (avatarInput) {
+            avatarInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    // Валидация
+                    if (!file.type.match('image.*')) {
+                        alert('Пожалуйста, выберите изображение (JPG, PNG)');
+                        return;
+                    }
+                    if (file.size > 2 * 1024 * 1024) {
+                        alert('Файл слишком большой (максимум 2MB)');
+                        return;
+                    }
+
+                    // Превью
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        avatarPreview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        if (avatarClear) {
+            avatarClear.addEventListener('change', function() {
+                if (this.checked) {
+                    avatarPreview.src = "{% static 'img/default-avatar.png' %}";
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

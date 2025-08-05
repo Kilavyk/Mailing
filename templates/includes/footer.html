@@ -1,0 +1,43 @@
+<footer class="pt-4 my-md-5 pt-md-5 border-top">
+    <div class="container">
+        <div class="row justify-content-center">
+            <!-- Первая колонка -->
+            <div class="col-12 col-md-3 text-center text-md-start mb-4 mb-md-0">
+                SkyMailing
+                <small class="d-block mb-3 text-muted">&copy; {% now "Y" %}</small>
+            </div>
+
+            <!-- Вторая колонка -->
+            <div class="col-6 col-md-3 text-center text-md-start">
+                <h5>Меню</h5>
+                <ul class="list-unstyled text-small">
+                    {% if user.is_authenticated %}
+                    <li><a class="text-muted" href="{% url 'home:home' %}">Главная</a></li>
+                    <li><a class="text-muted" href="{% url 'mailing:list' %}">Рассылки</a></li>
+                    <li><a class="text-muted" href="{% url 'mailing:message_create' %}">Сообщения</a></li>
+                    <li><a class="text-muted" href="{% url 'mailing:recipient_create' %}">Получатели</a></li>
+                    <li><a class="text-muted" href="{% url 'home:reports' %}">Отчеты</a>
+                    {% else %}
+                    <li><a class="text-muted" href="{% url 'home:home' %}">Главная</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <!-- Третья колонка -->
+            <div class="col-6 col-md-3 text-center text-md-start">
+                <h5>Ресурсы</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="{% url 'home:contacts' %}">Документация</a></li>
+                </ul>
+            </div>
+
+            <!-- Четвертая колонка -->
+            <div class="col-6 col-md-3 text-center text-md-start">
+                <h5>О нас</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="{% url 'home:contacts' %}">Контакты</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>

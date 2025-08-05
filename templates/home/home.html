@@ -1,0 +1,88 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">SkyMailing</h1>
+    <p class="lead">Сервис управления email-рассылками</p>
+</div>
+
+<div class="container">
+    <!-- Общая статистика -->
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Всего рассылок</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">{{ total_mailings }}</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Активных рассылок</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">{{ total_active_mailings }}</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Уникальных получателей</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">{{ total_unique_recipients }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Персональная статистика -->
+    {% if user.is_authenticated %}
+    <div class="row mt-4 text-center">
+        <div class="col-12 mb-3">
+            <h3>Ваша статистика</h3>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-primary">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Ваши рассылки</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">{{ user_mailings }}</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-success">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Активные рассылки</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">{{ user_active_mailings }}</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 border-info">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Ваши получатели</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">{{ user_unique_recipients }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Отчеты по рассылкам</h1>
+</div>
+
+<div class="container">
+    {% if mailings %}
+        {% for mailing in mailings %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>{{ mailing.message.subject }}</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <!-- Текст письма -->
+                    <div class="col-md-6">
+                        <pre>{{ mailing.message.body }}</pre>
+                    </div>
+                    
+                    <!-- Сводка по попыткам отправки -->
+                    <div class="col-md-6">
+                        <h5>Статистика отправок:</h5>
+                        {% if mailing.mailingattempt_set.all %}
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Дата/время</th>
+                                        <th>Статус</th>
+                                        <th>Ответ сервера</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for attempt in mailing.mailingattempt_set.all %}
+                                    <tr>
+                                        <td>{{ attempt.attempt_time|date:"d.m.Y H:i" }}</td>
+                                        <td>
+                                            <span class="badge bg-{% if attempt.status == 'success' %}success{% else %}danger{% endif %}">
+                                                {{ attempt.get_status_display }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <small class="text-muted" data-bs-toggle="tooltip"
+                                                   title="{{ attempt.server_response }}">
+                                                {{ attempt.server_response|truncatechars:30 }}
+                                            </small>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="alert alert-info mb-0">
+                            Нет данных о попытках отправки
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info">
+            У вас нет рассылок для отображения отчетов
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
